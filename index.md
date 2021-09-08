@@ -76,13 +76,7 @@ Usage example `git add --patch /src/path/to/file`
 use h to get the help menu or y or n to pick or discard a hunk.
 
 ## Update, split and do magic with commits
-
-### Remove a file from a commit
 TBD
-
-### Update a commit with rebase interactive
-TBD
-
 
 ## Some handy git aliases
 ```
