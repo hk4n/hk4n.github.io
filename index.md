@@ -52,7 +52,7 @@ read.
 2. Push your feature branch `git push origin HEAD:feature_x` and create the PR
 3. Wait for comments...
 4. Fix comments `git commit --fixup=<hash>`
-5. When finished fixing comments run `git rebase --autosquash`
+5. When finished fixing comments run `git rebase --interactive --autosquash`
 6. Push with force `git push --force` since you rewrote the history
 
 ## When `fixup` won't work
