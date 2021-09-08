@@ -10,10 +10,10 @@ many others to remove some of the burdens of gits all commands and secure a neat
 and tidy git history.
 
 ## Commit messages
-This is a highly opinionated topic will differ a lot from developer to
-developer, team to team and company to company. There it is important
-that everyone have an agreement how it should look like. Conformity makes the
-git history easier to follow for everyone.
+This is a highly opinionated topic which differs a lot from developer to
+developer, team to team and company to company. It is important that everyone have
+agreed to a single way of working. Conformity makes the git history easier to 
+follow for everyone.
 
 Remember you do not write the commit message for your present you, it's for
 everyone else and your self in the future.
@@ -91,15 +91,15 @@ TBD
 	co = checkout
 	br = branch
 
-  # dumps git log as oneliner to stdout
+        # dumps git log as oneliner to stdout
 	lo = !git --no-pager log --oneline
 
-  # get all files in a commit, defaults to HEAD
-  files = "!f() { git diff-tree --no-commit-id --name-only -r ${1-HEAD}; }; f"
+        # get all files in a commit, defaults to HEAD
+        files = "!f() { git diff-tree --no-commit-id --name-only -r ${1-HEAD}; }; f"
 
-  # get all commit from HEAD to tracking branch HEAD or supplied branch
+        # get all commit from HEAD to tracking branch HEAD or supplied branch
 	one = "!f() { git --no-pager log --oneline ${1-$(git rev-parse --abbrev-ref --symbolic-full-name '@{u}')}..HEAD; }; f"
 
-  # for dev staging branch
+        # for dev staging branch
 	dev = "!f() { git --no-pager log --oneline ${1-origin/dev}..HEAD; }; f"
 ```
