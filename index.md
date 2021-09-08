@@ -28,9 +28,9 @@ the amount of merge commits and if developers use `git pull` as the default
 update method of their feature branches it will create merge commits all the
 time and it will be a pain to read the git history.
 
-A better way is to use `git fetch` and then `git rebase`, this will not
-create any unwelcome merge commits and allows for a quick look into whats in
-the branch before you rebase your local branch upon.
+A better way is to use `git fetch` and then `git rebase`. This will not
+create any unwelcome merge commits and allows for a quick look into
+the remote branch before you rebase.
 
 `git fetch` will update the remote branches (origin/*) in your local repo.
 
