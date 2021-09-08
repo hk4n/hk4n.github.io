@@ -53,7 +53,7 @@ read.
 3. Wait for comments...
 4. Fix comments `git commit --fixup=<hash>`
 5. When finished fixing comments run `git rebase --autosquash`
-6. Push with [force](https://git-scm.com/docs/git-push#Documentation/git-push.txt---force-with-leaseltrefnamegt) `git push --force-with-lease` since you rewrote the history
+6. Push with force `git push --force` since you rewrote the history
 
 ## When `fixup` won't work
 There are cases when the `fixup` wow will not work, then you have to go back to
