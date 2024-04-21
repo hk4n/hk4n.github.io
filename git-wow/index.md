@@ -76,24 +76,36 @@ Usage example `git add --patch /src/path/to/file`
 use h to get the help menu or y or n to pick or discard a hunk.
 
 ## Update, split and do magic with commits
-TBD
+
+### Extract/remove file from commit
+There are times where you regret adding a file to a commit. Maybe you run 
+`git commit -a` and now want the file removed.
+There are multiple ways to solve this depending on the situation.
+I use mostly three different ways.
+
+1. Reset the commit.
+```
+git reset --soft HEAD~1
+```
+
+2. Remove the file
+```
+git checkout HEAD~1 -- path/to/file
+git commit --amend
+```
+
+3. Remove from commit and keep the file change
+There isn't a straightforward built-in command to do remove a file from a
+commit and keep the file diff unstaged. I have written an git alias that does
+it for me, so I just run `git ef path/to/file` and the file is removed from the
+commit and file change is unstaged.
+You can find the alias in my [.git_aliases](./.git_aliases) file.
 
 ## Some handy git aliases
+[my git aliases](./.git_aliases)
+
+To use them, download the [.git_aliases](./.git_aliases) file to you home dir and add this to your `~/.gitconfig`
 ```
-[alias]
-	st = status -u
-	co = checkout
-	br = branch
-
-        # dumps git log as oneliner to stdout
-	lo = !git --no-pager log --oneline
-
-        # get all files in a commit, defaults to HEAD
-        files = "!f() { git diff-tree --no-commit-id --name-only -r ${1-HEAD}; }; f"
-
-        # get all commit from HEAD to tracking branch HEAD or supplied branch
-	one = "!f() { git --no-pager log --oneline ${1-$(git rev-parse --abbrev-ref --symbolic-full-name '@{u}')}..HEAD; }; f"
-
-        # for dev staging branch
-	dev = "!f() { git --no-pager log --oneline ${1-origin/dev}..HEAD; }; f"
+[include]
+    path = .git_aliases
 ```
