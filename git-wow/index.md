@@ -5,49 +5,50 @@ some have multiple git aliases and other are using just the default
 functionality. This scattered way of working can make the git history chaotic
 and hard to read.
 
-Bellow is a try to present a simple way of working that have helped me and
-many others to remove some of the burdens of gits all commands and secure a neat
-and tidy git history.
+Below is an attempt to present a simple workflow that has helped me and many
+others reduce the complexity of Git's numerous commands and maintain a clean,
+organized Git history.
 
 ## Commit messages
-This is a highly opinionated topic which differs a lot from developer to
-developer, team to team and company to company. It is important that everyone have
-agreed to a single way of working. Conformity makes the git history easier to 
-follow for everyone.
+This is a highly opinionated topic that varies greatly between developers,
+teams, and companies. It is crucial for everyone to agree on a unified
+workflow, as conformity makes the Git history easier for everyone to understand
+and follow.
 
-Remember you do not write the commit message for your present you, it's for
-everyone else and your self in the future.
+__Remember, commit messages are not written for your present self. They’re for
+everyone else and your future self.__
 
 I recommend everyone to read the article on the subject written by [Chris Beam](https://chris.beams.io/posts/git-commit/#imperative)
 you will get a good head start on how to write commit messages and why it is
 important.
 
 ## Update your local branch
-With bitbucket, gitlab and github default way of working it is hard to reduce
-the amount of merge commits and if developers use `git pull` as the default
-update method of their feature branches it will create merge commits all the
-time and it will be a pain to read the git history.
+With bitbucket, gitlab and github default way of working, it is hard to reduce
+the amount of merge commits, and if developers use `git pull` as the default
+update method of their feature branches, it will create merge commits and it
+it is not easy to follow and read the git history.
 
-A better way is to use `git fetch` and then `git rebase`. This will not
-create any unwelcome merge commits and allows for a quick look into
-the remote branch before you rebase.
+A better way is to use `git fetch` and then `git rebase`. This won't create any
+unwelcome merge commits, and also allows for a quick look into the remote
+branch before you update your branch with `git rebase`.
 
-`git fetch` will update the remote branches (origin/*) in your local repo.
+`git fetch` updates the remote branches (origin/*) in your local repo.
 
-`git rebase` will fast-forward the current local branch.
+`git rebase` applies your commits on top of the branch you are
+rebasing onto.
 
 ## Fixup way of working
 Using `git commit --fixup=<hash>` helps a lot when adding more content to a
-commit in the git history and do `git rebase --autosquash` before pushing to
-squash the `fixup` commits.
+commit and do `git rebase --autosquash` before pushing to
+squash the `fixup` commits to apply the changes.
 
-There are a good reason to use this when fixing comments on a Pull Request.
-There wont be any commits merged just for fixing comments in your
-PR, this will ensure a cleaner git history and thus make it much easier to
-read.
+I would argue that using the `fixup` workflow is a good practice when addressing
+comments on a Pull Request. This approach prevents the creation and merging of
+unnecessary `fix comments` commits, ensuring a cleaner Git history that is
+easier to follow and read.
 
 ### Example workflow
-0. Create local branch `git checkout -b feature_x origin/dev`
+0. Create local branch `git checkout -b feature_x origin/main`
 1. Do some work and create commits
 2. Push your feature branch `git push origin HEAD:feature_x` and create the PR
 3. Wait for comments...
@@ -55,15 +56,77 @@ read.
 5. When finished fixing comments run `git rebase --interactive --autosquash`
 6. Push with force `git push --force` since you rewrote the history
 
+### Working in detached head
+The example below will show when you are working on detached head(no local
+branch created).
+
+```
+git checkout origin/main
+...
+# create commits
+...
+git push origin HEAD:refs/heads/feature_x
+...
+# fix comments with fixup
+git add file
+git commit --fixup=<hash>
+...
+git rebase -i --autosquash origin/main
+git push origin --force HEAD:refs/heads/feature_x
+```
+
+### Local branch not based on a remote branch
+Another scenario where you might want to rebase directly against `origin/main` is
+when you create a local branch not based on a remote branch and later add a
+tracking branch to enable a simple push. In this case, after pushing your
+changes, if you add a fixup commit and then rebase, you may notice that only
+the fixup or new commits made after the push are visible, rather than the full
+commit history. To resolve this, you need to rebase against the branch from
+which your branch originally diverged, such as `origin/main`. See the example
+below.
+
+```
+git checkout -b feature_y
+git branch -u origin/feature_y
+...
+git push
+...
+git add file
+git commit --fixup=<hash>
+git rebase -i --autosquash origin/main
+...
+git push --force
+
+```
+
+### Keep base
+A useful trick when working with fixup commits and rebases is to use the
+`--keep-base` option. This ensures that your branch does not update to include
+changes from the base branch, but instead only applies the fixup commits. The
+advantage is that when you push to the remote, the reviewer only needs to
+review the fixup changes, rather than any new changes introduced by a rebase
+without `--keep-base`. If you need to update your branch to the latest version,
+it’s better to do so either before or after applying the fixups, if possible.
+
+```
+git rebase -i --autosquash --keep-base origin/main
+```
+
+### Push fixups to the remote
+There are use-cases where pushing the fixup commits for review. This is useful
+if you want the reviewer to see what changes you have made before applying
+them. But this can also happen by accident, then there are one important thing
+to keep in mind when you do that.
+
+:warning:__Make sure that you have some mechanism to prevent the branch from getting
+merged before the fixups is applied, for github there is github action plugins
+that you can use, or you can write your own small script/plugin.__
+
+
 ## When `fixup` won't work
 There are cases when the `fixup` wow will not work, then you have to go back to
 old style `git rebase --interactive` and edit the commit or commits that you
 have comments on.
-
-The most common case is when the file you have comments on has been updated in
-several commits and the update you want to do is in a early commit. If you
-would use the `fixup` wow you'll move all the changes done later into the
-earlier commit.
 
 ### add --patch
 When your change in a file have different context and should be in separate
@@ -78,20 +141,20 @@ use h to get the help menu or y or n to pick or discard a hunk.
 ## Update, split and do magic with commits
 
 ### Extract/remove file from commit
-There are times where you regret adding a file to a commit. Maybe you run 
+There are times where you regret adding a file to a commit. Maybe you run
 `git commit -a` and now want the file removed.
 There are multiple ways to solve this depending on the situation.
 I use mostly three different ways.
 
-1. Reset the commit.
-```
-git reset --soft HEAD~1
-```
-
-2. Remove the file
+1. Remove the file from the commit
 ```
 git checkout HEAD~1 -- path/to/file
 git commit --amend
+```
+
+2. Reset the commit and start over
+```
+git reset --soft HEAD~1
 ```
 
 3. Remove from commit and keep the file change
