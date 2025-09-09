@@ -41,9 +41,7 @@
             exit 1; \
         fi; \
         echo "Extracting file ${1}" && \
-        git diff HEAD~1 -- ${1} > "${1}.diff" && \
-        git checkout HEAD~1 -- ${1} && \
+        git restore --source=HEAD^ --staged --worktree -- ${1} && \
         git commit --amend --no-edit && \
-        git apply --whitespace=nowarn ${1}.diff && \
-        rm -f "${1}.diff"; \
+        git restore --source=ORIG_HEAD --worktree -- ${1} && \
     }; f"
