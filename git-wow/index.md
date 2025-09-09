@@ -135,6 +135,8 @@ There are cases when the `fixup` wow will not work, then you have to go back to
 old style `git rebase --interactive` and edit the commit or commits that you
 have comments on.
 
+## Update, split and do magic with commits
+
 ### add --patch
 When your change in a file have different context and should be in separate
 commits, there's a great addition to the `git add` [command](https://git-scm.com/docs/git-add#Documentation/git-add.txt---patch), `--patch | -p`.
@@ -144,8 +146,6 @@ for the context differences.
 
 Usage example `git add --patch /src/path/to/file`
 use h to get the help menu or y or n to pick or discard a hunk.
-
-## Update, split and do magic with commits
 
 ### Extract/remove file from commit
 There are times where you regret adding a file to a commit. Maybe you run
