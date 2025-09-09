@@ -118,10 +118,17 @@ if you want the reviewer to see what changes you have made before applying
 them. But this can also happen by accident, then there are one important thing
 to keep in mind when you do that.
 
-:warning:__Make sure that you have some mechanism to prevent the branch from getting
-merged before the fixups is applied, for github there is github action plugins
-that you can use, or you can write your own small script/plugin.__
+__Make sure that you have some mechanism to prevent the branch from getting
+merged before the fixups is applied__
 
+#### Fixup commits in Github
+For github you can use github action plugins, or you could write your own
+small script/plugin.
+
+It is also possible to configure your github repository to only allow signed
+commits, together with the `fixup` alias I have below in the
+.git_aliases file, will ensure that no fixup commits get merged to the main
+branch by accident.
 
 ## When `fixup` won't work
 There are cases when the `fixup` wow will not work, then you have to go back to
