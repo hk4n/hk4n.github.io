@@ -6,6 +6,9 @@
     # dumps git log as oneliner to stdout
     lo = !git --no-pager log --oneline
 
+    # fixup without signing to prevent merge of PRs
+    fixup = commit --no-gpg-sign --fixup
+
     # get all files in a commit, defaults to HEAD
     files = "!f() { git diff-tree --no-commit-id --name-only -r ${1-HEAD}; }; f"
 
