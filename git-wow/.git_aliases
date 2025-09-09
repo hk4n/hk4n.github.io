@@ -21,7 +21,7 @@
     # generate git ignore file
     ignore = "!gi() { curl -sL https://www.toptal.com/developers/gitignore/api/$@ ;}; gi"
 
-    # extract file from HEAD, usage git extract-file path/to/file
+    # extract file from HEAD commit, usage git extract-file path/to/file
     ef = "!f() { \
         if [ -z "${1}" ]; then \
             >&2 echo "Missing file argument, extraction aborted!"; \
