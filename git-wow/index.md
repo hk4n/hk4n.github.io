@@ -144,7 +144,7 @@ use h to get the help menu or y or n to pick or discard a hunk.
 There are times where you regret adding a file to a commit. Maybe you run
 `git commit -a` and now want the file removed.
 There are multiple ways to solve this depending on the situation.
-I use mostly three different ways.
+I mostly use three different ways.
 
 1. Remove the file from the commit
 ```
@@ -158,16 +158,24 @@ git reset --soft HEAD~1
 ```
 
 3. Remove from commit and keep the file change
-There isn't a straightforward built-in command to do remove a file from a
-commit and keep the file diff unstaged. I have written an git alias that does
-it for me, so I just run `git ef path/to/file` and the file is removed from the
-commit and file change is unstaged.
-You can find the alias in my [.git_aliases](https://raw.githubusercontent.com/hk4n/hk4n.github.io/refs/heads/main/git-wow/.git_aliases) file.
 
-## Some handy git aliases
-[my git aliases](https://raw.githubusercontent.com/hk4n/hk4n.github.io/refs/heads/main/git-wow/.git_aliases)
+   There isn't a straightforward built-in command to remove a file from a commit
+   and keep the file diff unstaged, and there are cases it can be tricky.
 
-To use them, download the [.git_aliases](https://raw.githubusercontent.com/hk4n/hk4n.github.io/refs/heads/main/git-wow/.git_aliases) file to you home dir and add this to your `~/.gitconfig`
+   It can usually be done with the below command sequence.
+   ```
+   git reset HEAD^ -- path/to/file
+   git commit --amend
+   ```
+
+   I have written a git alias that makes this quick and easy, you only need to run
+   `git ef path/to/file` and the file is removed from the commit and file change
+   gets unstaged.
+
+   You can find the alias below in the link to the .git_aliases.
+
+## Git aliases
+Download the [.git_aliases](https://raw.githubusercontent.com/hk4n/hk4n.github.io/refs/heads/main/git-wow/.git_aliases) file to you home dir and add this to your `~/.gitconfig`
 ```
 [include]
     path = .git_aliases
