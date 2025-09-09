@@ -162,12 +162,12 @@ There isn't a straightforward built-in command to do remove a file from a
 commit and keep the file diff unstaged. I have written an git alias that does
 it for me, so I just run `git ef path/to/file` and the file is removed from the
 commit and file change is unstaged.
-You can find the alias in my [.git_aliases](./.git_aliases) file.
+You can find the alias in my [.git_aliases](https://raw.githubusercontent.com/hk4n/hk4n.github.io/refs/heads/main/git-wow/.git_aliases) file.
 
 ## Some handy git aliases
-[my git aliases](./.git_aliases)
+[my git aliases](https://raw.githubusercontent.com/hk4n/hk4n.github.io/refs/heads/main/git-wow/.git_aliases)
 
-To use them, download the [.git_aliases](./.git_aliases) file to you home dir and add this to your `~/.gitconfig`
+To use them, download the [.git_aliases](https://raw.githubusercontent.com/hk4n/hk4n.github.io/refs/heads/main/git-wow/.git_aliases) file to you home dir and add this to your `~/.gitconfig`
 ```
 [include]
     path = .git_aliases
