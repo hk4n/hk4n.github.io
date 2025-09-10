@@ -43,5 +43,5 @@
         echo "Extracting file ${1}" && \
         git restore --source=HEAD^ --staged --worktree -- ${1} && \
         git commit --amend --no-edit && \
-        git restore --source=ORIG_HEAD --worktree -- ${1} && \
+        git restore --source=ORIG_HEAD --worktree -- ${1}; \
     }; f"
